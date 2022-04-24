@@ -1,11 +1,11 @@
 ;;; cursory.el --- Manage cursor styles using presets -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022  Protesilaos Stavrou
+;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://git.sr.ht/~protesilaos/cursory
 ;; Mailing list: https://lists.sr.ht/~protesilaos/cursory
-;; Version: 0.1.1
+;; Version: 0.1.4
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, cursor
 
@@ -85,7 +85,25 @@ They correspond to built-in variables of the same name:
 `blink-cursor-delay'.  The value each of them accepts is the same
 as the corresponding variable."
   :group 'cursory
-  :type 'alist) ; FIXME 2022-04-15: Make this usable in the Custom UI
+  :type `(alist
+          :value-type
+          (plist :options
+                 (((const :tag "Cursor type"
+                          :cursor-type)
+                   ,(get 'cursor-type 'custom-type))
+                  ((const :tag "Cursor in non-selected windows"
+                          :cursor-in-non-selected-windows)
+                   ,(get 'cursor-in-non-selected-windows 'custom-type))
+                  ((const :tag "Number of blinks"
+                          :blink-cursor-blinks)
+                   ,(get 'blink-cursor-blinks 'custom-type))
+                  ((const :tag "Blink interval"
+                          :blink-cursor-interval)
+                   ,(get 'blink-cursor-interval 'custom-type))
+                  ((const :tag "Blink delay"
+                          :blink-cursor-delay)
+                   ,(get 'blink-cursor-delay 'custom-type))))
+          :key-type symbol))
 
 (defcustom cursory-latest-state-file
   (locate-user-emacs-file "cursory-latest-state.eld")
@@ -146,14 +164,14 @@ With optional LOCAL as a prefix argument, set the
 (defun cursory-store-latest-preset ()
   "Write latest cursor state to `cursory-latest-state-file'.
 Can be assigned to `kill-emacs-hook'."
-  (when cursory--style-hist
+  (when-let ((hist cursory--style-hist))
     (with-temp-file cursory-latest-state-file
       (insert ";; Auto-generated file; don't edit -*- mode: "
-	      (if (<= 28 emacs-major-version)
-		  "lisp-data"
-		"emacs-lisp")
-	      " -*-\n"))
-      (pp (intern (car cursory--style-hist)) (current-buffer))))
+              (if (<= 28 emacs-major-version)
+                  "lisp-data"
+                "emacs-lisp")
+              " -*-\n")
+      (pp (intern (car hist)) (current-buffer)))))
 
 (defvar cursory-recovered-preset nil
   "Recovered value of latest store cursor preset.")
@@ -161,15 +179,15 @@ Can be assigned to `kill-emacs-hook'."
 ;;;###autoload
 (defun cursory-restore-latest-preset ()
   "Restore latest cursor style."
-  (when-let ((file cursory-latest-state-file))
-    (when (file-exists-p file)
-      (setq cursory-recovered-preset
-            (unless (zerop
-                     (or (file-attribute-size (file-attributes file))
-                         0))
-              (with-temp-buffer
-                (insert-file-contents file)
-                (read (current-buffer))))))))
+  (when-let* ((file cursory-latest-state-file)
+              ((file-exists-p file)))
+    (setq cursory-recovered-preset
+          (unless (zerop
+                   (or (file-attribute-size (file-attributes file))
+                       0))
+            (with-temp-buffer
+              (insert-file-contents file)
+              (read (current-buffer)))))))
 
 (provide 'cursory)
 ;;; cursory.el ends here
