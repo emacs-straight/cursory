@@ -1,4 +1,4 @@
-This is docmHarZv.info, produced by makeinfo version 6.8 from
+This is docOHiHUX.info, produced by makeinfo version 6.8 from
 cursory.texi.
 
 Copyright (C) 2022-2023 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docmHarZv.info,  Node: Top,  Next: Overview,  Up: (dir)
+File: docOHiHUX.info,  Node: Top,  Next: Overview,  Up: (dir)
 
 cursory.el: Manage cursor styles using presets
 **********************************************
@@ -83,7 +83,7 @@ Indices
 
 
 
-File: docmHarZv.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
+File: docOHiHUX.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Overview
 **********
@@ -220,7 +220,7 @@ enable the ‘cursory-mode’.  It arranges to track the latest preset after
 using ‘cursory-set-preset’ or closing Emacs.
 
 
-File: docmHarZv.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: docOHiHUX.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 2 Installation
 **************
@@ -231,7 +231,7 @@ File: docmHarZv.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: docmHarZv.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docOHiHUX.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -250,7 +250,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docmHarZv.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docOHiHUX.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -267,7 +267,7 @@ following commands in a shell prompt:
      cd manual-packages
 
      # Clone this repo, naming it "cursory"
-     git clone https://git.sr.ht/~protesilaos/cursory cursory
+     git clone https://github.com/protesilaos/cursory cursory
 
    Finally, in your ‘init.el’ (or equivalent) evaluate this:
 
@@ -277,7 +277,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docmHarZv.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: docOHiHUX.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -301,7 +301,7 @@ Remember to read the doc string of each of these variables or functions.
      (define-key global-map (kbd "C-c p") #'cursory-set-preset)
 
 
-File: docmHarZv.info,  Node: Acknowledgements,  Next: Also see,  Prev: Sample configuration,  Up: Top
+File: docOHiHUX.info,  Node: Acknowledgements,  Next: Also see,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -316,7 +316,7 @@ Contributions to the code or manual
      Kaludercic, Stefan Monnier.
 
 
-File: docmHarZv.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
+File: docOHiHUX.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
 
 5 Also see
 **********
@@ -327,7 +327,7 @@ For example, the box is the default and switches to a bar when
 ‘overwrite-mode’ is on: <https://github.com/duckwork/electric-cursor>.
 
 
-File: docmHarZv.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
+File: docOHiHUX.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
 
 6 GNU Free Documentation License
 ********************************
@@ -809,7 +809,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docmHarZv.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docOHiHUX.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 7 Indices
 *********
@@ -821,7 +821,7 @@ File: docmHarZv.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docmHarZv.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docOHiHUX.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 7.1 Function index
 ==================
@@ -834,7 +834,7 @@ File: docmHarZv.info,  Node: Function index,  Next: Variable index,  Up: Indices
 * cursory-store-latest-preset:           Overview.            (line 125)
 
 
-File: docmHarZv.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docOHiHUX.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 7.2 Variable index
 ==================
@@ -847,7 +847,7 @@ File: docmHarZv.info,  Node: Variable index,  Next: Concept index,  Prev: Functi
 * cursory-set-preset-hook:               Overview.            (line  19)
 
 
-File: docmHarZv.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docOHiHUX.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 7.3 Concept index
 =================
