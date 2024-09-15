@@ -1,7 +1,7 @@
-This is docOHiHUX.info, produced by makeinfo version 6.8 from
+This is docdPOf9C.info, produced by makeinfo version 6.8 from
 cursory.texi.
 
-Copyright (C) 2022-2023 Free Software Foundation, Inc.
+Copyright (C) 2022-2024 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -20,12 +20,12 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docOHiHUX.info,  Node: Top,  Next: Overview,  Up: (dir)
+File: docdPOf9C.info,  Node: Top,  Next: Overview,  Up: (dir)
 
 cursory.el: Manage cursor styles using presets
 **********************************************
 
-Copyright (C) 2022-2023 Free Software Foundation, Inc.
+Copyright (C) 2022-2024 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -43,11 +43,11 @@ customization options for ‘cursory’ (or ‘cursory.el’), and provides
 every other piece of information pertinent to it.
 
    The documentation furnished herein corresponds to stable version
-1.0.0, released on 2023-06-09.  Any reference to a newer feature which
+1.1.0, released on 2024-09-14.  Any reference to a newer feature which
 does not yet form part of the latest tagged commit, is explicitly marked
 as such.
 
-   Current development target is 1.1.0-dev.
+   Current development target is 1.2.0-dev.
 
    • Package name (GNU ELPA): ‘cursory’
    • Official manual: <https://protesilaos.com/emacs/cursory>
@@ -70,6 +70,10 @@ as such.
 
 — The Detailed Node Listing —
 
+Overview
+
+* Example hooks after setting a preset::
+
 Installation
 
 * GNU ELPA package::
@@ -83,7 +87,7 @@ Indices
 
 
 
-File: docOHiHUX.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
+File: docdPOf9C.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Overview
 **********
@@ -103,8 +107,8 @@ single preset outright.
 
    The ‘cursory-set-preset’ comman calls the ‘cursory-set-preset-hook’
 as its final step.  Use this to run other functions after changing the
-cursor (e.g.  a function that checks the style Cursory used to apply an
-appropriate color).  [ This hook is part of 1.1.0-dev.  ]
+cursor (*note Example hooks after setting a preset::).  The variable
+‘cursory-last-selected-preset’ may prove useful.
 
    Presets consist of an arbitrary symbol broadly described the style
 set followed by a list of properties that govern the cursor type in the
@@ -213,14 +217,43 @@ be restored with the ‘cursory-restore-latest-preset’ function.
 
    *note Sample configuration::.
 
-   [ The following is part of 1.1.0-dev.  ]
-
    Instead of manually storing the latest Cursory preset, users can
-enable the ‘cursory-mode’.  It arranges to track the latest preset after
-using ‘cursory-set-preset’ or closing Emacs.
+enable the ‘cursory-mode’.  It arranges to track the latest preset each
+time after using ‘cursory-set-preset’ or Emacs is closed.
+
+* Menu:
+
+* Example hooks after setting a preset::
 
 
-File: docOHiHUX.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: docdPOf9C.info,  Node: Example hooks after setting a preset,  Up: Overview
+
+1.1 Example hooks after setting a preset
+========================================
+
+The ‘cursory-set-preset-hook’ is a normal hook (where functions are
+invoked without any arguments), which is called after the command
+‘cursory-set-preset’.  Here are some ideas on how to use it:
+
+     ;; Imagine you have a preset where you want minimal cursor styles.
+     ;; You call this `focus' and want when you switch to it to change the
+     ;; cursor color.
+     (defun my-cursory-change-color ()
+     "Change to a subtle color when the `focus' Cursory preset is selected."
+       (if (eq cursory-last-selected-preset 'focus)
+           (set-face-background 'cursor "#999999")
+         (face-spec-recalc 'cursor nil)))
+
+     (defun my-cursory-change-color-disable-line-numbers ()
+       "Disable line numbers if the Cursory preset is `presentation' or `focus'."
+       (when (memq cursory-last-selected-preset '(presentation focus))
+         (display-line-numbers-mode -1)))
+
+   I am happy to include more examples here, if users have any
+questions.
+
+
+File: docdPOf9C.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 2 Installation
 **************
@@ -231,7 +264,7 @@ File: docOHiHUX.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: docOHiHUX.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docdPOf9C.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -250,7 +283,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docOHiHUX.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docdPOf9C.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -277,7 +310,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docOHiHUX.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: docdPOf9C.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -301,7 +334,7 @@ Remember to read the doc string of each of these variables or functions.
      (define-key global-map (kbd "C-c p") #'cursory-set-preset)
 
 
-File: docOHiHUX.info,  Node: Acknowledgements,  Next: Also see,  Prev: Sample configuration,  Up: Top
+File: docdPOf9C.info,  Node: Acknowledgements,  Next: Also see,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -316,7 +349,7 @@ Contributions to the code or manual
      Kaludercic, Stefan Monnier.
 
 
-File: docOHiHUX.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
+File: docdPOf9C.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
 
 5 Also see
 **********
@@ -327,7 +360,7 @@ For example, the box is the default and switches to a bar when
 ‘overwrite-mode’ is on: <https://github.com/duckwork/electric-cursor>.
 
 
-File: docOHiHUX.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
+File: docdPOf9C.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
 
 6 GNU Free Documentation License
 ********************************
@@ -809,7 +842,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docOHiHUX.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docdPOf9C.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 7 Indices
 *********
@@ -821,7 +854,7 @@ File: docOHiHUX.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docOHiHUX.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docdPOf9C.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 7.1 Function index
 ==================
@@ -834,7 +867,7 @@ File: docOHiHUX.info,  Node: Function index,  Next: Variable index,  Up: Indices
 * cursory-store-latest-preset:           Overview.            (line 125)
 
 
-File: docOHiHUX.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docdPOf9C.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 7.2 Variable index
 ==================
@@ -842,12 +875,13 @@ File: docOHiHUX.info,  Node: Variable index,  Next: Concept index,  Prev: Functi
  [index ]
 * Menu:
 
+* cursory-last-selected-preset:          Overview.            (line  19)
 * cursory-latest-state-file:             Overview.            (line 125)
 * cursory-presets:                       Overview.            (line  14)
 * cursory-set-preset-hook:               Overview.            (line  19)
 
 
-File: docOHiHUX.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docdPOf9C.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 7.3 Concept index
 =================
@@ -863,18 +897,19 @@ File: docOHiHUX.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 Tag Table:
 Node: Top843
-Node: Overview2806
-Node: Installation8355
-Node: GNU ELPA package8542
-Node: Manual installation9104
-Node: Sample configuration9877
-Node: Acknowledgements10707
-Node: Also see11104
-Node: GNU Free Documentation License11519
-Node: Indices36854
-Node: Function index37030
-Node: Variable index37394
-Node: Concept index37780
+Node: Overview2858
+Node: Example hooks after setting a preset8417
+Node: Installation9550
+Node: GNU ELPA package9737
+Node: Manual installation10299
+Node: Sample configuration11072
+Node: Acknowledgements11902
+Node: Also see12299
+Node: GNU Free Documentation License12714
+Node: Indices38049
+Node: Function index38225
+Node: Variable index38589
+Node: Concept index39048
 
 End Tag Table
 
