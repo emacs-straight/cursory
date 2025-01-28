@@ -1,7 +1,7 @@
-This is docpsZSRB.info, produced by makeinfo version 6.8 from
+This is docs7WbSr.info, produced by makeinfo version 6.8 from
 cursory.texi.
 
-Copyright (C) 2022-2024 Free Software Foundation, Inc.
+Copyright (C) 2022-2025 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -20,12 +20,12 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docpsZSRB.info,  Node: Top,  Next: Overview,  Up: (dir)
+File: docs7WbSr.info,  Node: Top,  Next: Overview,  Up: (dir)
 
 cursory.el: Manage cursor styles using presets
 **********************************************
 
-Copyright (C) 2022-2024 Free Software Foundation, Inc.
+Copyright (C) 2022-2025 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -87,7 +87,7 @@ Indices
 
 
 
-File: docpsZSRB.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
+File: docs7WbSr.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Overview
 **********
@@ -226,7 +226,7 @@ time after using ‘cursory-set-preset’ or Emacs is closed.
 * Example hooks after setting a preset::
 
 
-File: docpsZSRB.info,  Node: Example hooks after setting a preset,  Up: Overview
+File: docs7WbSr.info,  Node: Example hooks after setting a preset,  Up: Overview
 
 1.1 Example hooks after setting a preset
 ========================================
@@ -253,7 +253,7 @@ invoked without any arguments), which is called after the command
 questions.
 
 
-File: docpsZSRB.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
+File: docs7WbSr.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
 
 2 Installation
 **************
@@ -264,7 +264,7 @@ File: docpsZSRB.info,  Node: Installation,  Next: Sample configuration,  Prev: O
 * Manual installation::
 
 
-File: docpsZSRB.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docs7WbSr.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -283,7 +283,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docpsZSRB.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docs7WbSr.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -310,7 +310,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docpsZSRB.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: docs7WbSr.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -334,7 +334,7 @@ Remember to read the doc string of each of these variables or functions.
      (define-key global-map (kbd "C-c p") #'cursory-set-preset)
 
 
-File: docpsZSRB.info,  Node: Acknowledgements,  Next: Also see,  Prev: Sample configuration,  Up: Top
+File: docs7WbSr.info,  Node: Acknowledgements,  Next: Also see,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -349,7 +349,7 @@ Contributions to the code or manual
      Kaludercic, Stefan Monnier.
 
 
-File: docpsZSRB.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
+File: docs7WbSr.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
 
 5 Also see
 **********
@@ -360,7 +360,7 @@ For example, the box is the default and switches to a bar when
 ‘overwrite-mode’ is on: <https://github.com/duckwork/electric-cursor>.
 
 
-File: docpsZSRB.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
+File: docs7WbSr.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
 
 6 GNU Free Documentation License
 ********************************
@@ -842,7 +842,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docpsZSRB.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docs7WbSr.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 7 Indices
 *********
@@ -854,7 +854,7 @@ File: docpsZSRB.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docpsZSRB.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docs7WbSr.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 7.1 Function index
 ==================
@@ -867,7 +867,7 @@ File: docpsZSRB.info,  Node: Function index,  Next: Variable index,  Up: Indices
 * cursory-store-latest-preset:           Overview.            (line 125)
 
 
-File: docpsZSRB.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docs7WbSr.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 7.2 Variable index
 ==================
@@ -881,7 +881,7 @@ File: docpsZSRB.info,  Node: Variable index,  Next: Concept index,  Prev: Functi
 * cursory-set-preset-hook:               Overview.            (line  19)
 
 
-File: docpsZSRB.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docs7WbSr.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 7.3 Concept index
 =================
