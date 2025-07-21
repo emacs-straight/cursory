@@ -6,7 +6,7 @@
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/cursory
 ;; Version: 1.1.0
-;; Package-Requires: ((emacs "27.1"))
+;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, cursor
 
 ;; This file is NOT part of GNU Emacs.
@@ -127,14 +127,6 @@
 ;;
 ;;     (cursory-set-preset 'bar)
 ;;
-;; The default behaviour of `cursory-set-preset' is to change cursors
-;; globally.  The user can, however, limit the effect to the current
-;; buffer.  With interactive use, this is done by invoking the command with
-;; a universal prefix argument (`C-u' by default).  When called from Lisp,
-;; the LOCAL argument must be non-nil, thus:
-;;
-;;     (cursory-set-preset 'bar :local)
-;;
 ;; The function `cursory-store-latest-preset' is used to save the last
 ;; selected style in the `cursory-latest-state-file'.  The value can then
 ;; be restored with the `cursory-restore-latest-preset' function.
@@ -147,6 +139,18 @@
   "Manage cursor styles using presets."
   :group 'cursor
   :link '(info-link "(cursory) Top"))
+
+;; NOTE 2025-07-20: This is what `use-package' does with its own
+;; theme, so it is probably the right approach for us too.
+(eval-and-compile
+  ;; Declare a synthetic theme for :custom variables.
+  ;; Necessary in order to avoid having those variables saved by custom.el.
+  (deftheme cursory "Special theme for Cursory modifications."))
+
+(enable-theme 'cursory)
+;; Remove the synthetic cursory theme from the enabled themes, so
+;; iterating over them to "disable all themes" won't disable it.
+(setq custom-enabled-themes (remq 'cursory custom-enabled-themes))
 
 (defcustom cursory-presets
   '((box
@@ -166,6 +170,7 @@
      :inherit underscore
      :cursor-in-non-selected-windows (hbar . 1))
     (t ; the default values
+     :cursor-color unspecified
      :cursor-type box
      :cursor-in-non-selected-windows hollow
      :blink-cursor-mode 1
@@ -188,6 +193,7 @@ variable for how that is done.
 The `cdr' is a plist which specifies the cursor type and blink
 properties.  In particular, it accepts the following properties:
 
+    :cursor-color
     :cursor-type
     :cursor-in-non-selected-windows
     :blink-cursor-blinks
@@ -196,32 +202,43 @@ properties.  In particular, it accepts the following properties:
 
 They correspond to built-in variables: `cursor-type',
 `cursor-in-non-selected-windows', `blink-cursor-blinks',
-`blink-cursor-interval', `blink-cursor-delay'.  The value each of
-them accepts is the same as the variable it references.
+`blink-cursor-interval', `blink-cursor-delay'.  The value each of them
+accepts is the same as the variable it references.
 
-A property of `:blink-cursor-mode' is also available.  It is a
-numeric value of either 1 or -1 and is given to the function
+A property of `:blink-cursor-mode' is also available.  It is a numeric
+value of either 1 or -1 and is given to the function
 `blink-cursor-mode' (1 is to enable, -1 is to disable the mode).
 
-Finally, the plist takes the special `:inherit' property.  Its
-value is contains the name of another named preset (unquoted).
-This tells the relevant Cursory functions to get the properties
-of that given preset and blend them with those of the current
-one.  The properties of the current preset take precedence over
-those of the inherited one, thus overriding them.  In practice,
-this is a way to have something like an underscore style with a
-hallow cursor for the other window and the same with a thin
-underscore for the other window (see the default value of this
-user option for concrete examples).  Remember that all named
-presets fall back to the preset whose name is t.  The `:inherit'
-is not a substitute for that generic fallback but rather an extra
-method of specifying font configuration presets."
+The `:cursor-color' specifies the color value applied to the `cursor'
+face.  When the value is nil or `unspecified', no changes to the
+`cursor' face are made.  When the value is a hexadecimal RGB color
+value, like #123456 it is used as-is.  Same if it is a named color among
+those produced by the command `list-colors-display'.  When the value is
+the symbol of a face (unquoted), then the foreground of that face is
+used for the `cursor' face, falling back to `default'.
+
+The plist optionally takes the special `:inherit' property.  Its value
+contains the name of another named preset (unquoted).  This tells the
+relevant Cursory functions to get the properties of that given preset
+and blend them with those of the current one.  The properties of the
+current preset take precedence over those of the inherited one, thus
+overriding them.  In practice, this is a way to have something like an
+underscore style with a hallow cursor for the other window and the same
+with a thin underscore for the other window (see the default value of
+this user option for concrete examples).  Remember that all named
+presets fall back to the preset whose name is t.  The `:inherit' is not
+a substitute for that generic fallback but rather an extra method of
+specifying font configuration presets."
   :group 'cursory
-  :package-version '(cursory . "1.0.0")
+  :package-version '(cursory . "1.2.0")
   :type `(alist
           :value-type
           (plist :options
-                 (((const :tag "Cursor type"
+                 (((const :tag "Cursor color" :cursor-color)
+                   (choice (const :tag "Do not modify the `cursor' face" unspecified)
+                           (string :tag "Hexademical RGB color value (e.g. #123456) or named color (e.g. red)")
+                           (face :tag "A face whose foreground is used (falling back to `default'")))
+                  ((const :tag "Cursor type"
                           :cursor-type)
                    ,(get 'cursor-type 'custom-type))
                   ((const :tag "Cursor in non-selected windows"
@@ -261,10 +278,15 @@ Saving is done by the `cursory-store-latest-preset' function."
 (defvar cursory--style-hist '()
   "Minibuffer history of `cursory--set-cursor-prompt'.")
 
+(defun cursory--get-presets ()
+  "Return the `car' of each named entry in `cursory-presets'."
+  (delq t (mapcar #'car cursory-presets)))
+
 (defun cursory--preset-p (preset)
   "Return non-nil if PRESET is one of the named `cursory-presets'."
-  (let ((presets (delq t (mapcar #'car cursory-presets))))
-    (memq preset presets)))
+  (if-let* ((presets (cursory--get-presets)))
+      (memq preset presets)
+    (error "There are no named presets in `cursory-presets'")))
 
 (defun cursory--get-inherit-name (preset)
   "Get the `:inherit' value of PRESET."
@@ -304,65 +326,63 @@ Saving is done by the `cursory-store-latest-preset' function."
       (intern preset)
     preset))
 
-(defun cursory--delete-local-variables ()
-  "Delete all cursor-related local variables."
-  (dolist (var '( cursor-type cursor-in-non-selected-windows
-                  blink-cursor-blinks blink-cursor-interval
-                  blink-cursor-delay))
-    (kill-local-variable var)))
-
 (defvar cursory-last-selected-preset nil
   "The last value of `cursory-set-preset'.")
 
-(defun cursory--set-preset-with-scope (preset &optional local)
-  "Set PRESET of `cursory-presets' to the global scope.
-With optional non-nil LOCAL, set STYLES scoped locally to the
-current buffer."
+(defun cursory--get-cursor-color (color-value)
+  "Return the color of the `cursor' face based on VALUE.
+COLOR-VALUE can be a string, representing a color by name or hexadecimal
+RGB, a symbol of a face, the symbol `unspecified' or nil."
+  (cond
+    ((stringp color-value) color-value)
+    ((facep color-value) (face-foreground color-value nil 'default))
+    (t nil)))
+
+(defun cursory--set-cursor (color-value)
+  "Set the cursor style given COLOR-VALUE.
+When FRAME is a frame object, only do it for it.  Otherwise, apply the
+effect to all frames."
+  (let ((color (cursory--get-cursor-color color-value))
+        (custom--inhibit-theme-enable nil))
+    (if color
+        (custom-theme-set-faces 'cursory `(cursor ((t :background ,color))))
+      (custom-theme-set-faces 'cursory '(cursor (( )))))))
+
+(defun cursory--set-preset-subr (preset)
+  "Set PRESET of `cursory-presets' to the global scope."
   (if-let* ((styles (cursory--get-preset-properties preset)))
       ;; We do not include this in the `if-let*' because we also accept
       ;; nil values for :cursor-type, :cursor-in-non-selected-windows.
-      (let ((type (plist-get styles :cursor-type))
+      (let ((color-value (plist-get styles :cursor-color))
+            (type (plist-get styles :cursor-type))
             (type-no-select (plist-get styles :cursor-in-non-selected-windows))
             (blinks (plist-get styles :blink-cursor-blinks))
             (interval (plist-get styles :blink-cursor-interval))
             (delay (plist-get styles :blink-cursor-delay)))
         (setq cursory-last-selected-preset preset)
-        (if local
-            (setq-local cursor-type type
-                        cursor-in-non-selected-windows type-no-select
-                        blink-cursor-blinks blinks
-                        blink-cursor-interval interval
-                        blink-cursor-delay delay)
-          (cursory--delete-local-variables)
-          (setq-default cursor-type type
-                        cursor-in-non-selected-windows type-no-select
-                        blink-cursor-blinks blinks
-                        blink-cursor-interval interval
-                        blink-cursor-delay delay)
-          ;; We only want to save global values in `cursory-store-latest-preset'.
-          (add-to-history 'cursory--style-hist (format "%s" preset)))
+        (cursory--set-cursor color-value)
+        (setq-default cursor-type type
+                      cursor-in-non-selected-windows type-no-select
+                      blink-cursor-blinks blinks
+                      blink-cursor-interval interval
+                      blink-cursor-delay delay)
+        ;; We only want to save global values in `cursory-store-latest-preset'.
+        (add-to-history 'cursory--style-hist (format "%s" preset))
         (blink-cursor-mode (plist-get styles :blink-cursor-mode))
         (run-hooks 'cursory-set-preset-hook))
     (user-error "Cannot determine styles of preset `%s'" preset)))
 
 ;;;###autoload
-(defun cursory-set-preset (style &optional local)
+(defun cursory-set-preset (style)
   "Set cursor preset associated with STYLE.
 
 STYLE is a symbol that represents the car of a list in
 `cursory-presets'.
 
-With optional LOCAL as a prefix argument, set the
-`cursory-presets' only for the current buffer.  This does not
-cover the `blink-cursor-mode', which is always global.
-
 Call `cursory-set-preset-hook' as a final step."
-  (interactive
-   (list
-    (cursory--set-cursor-prompt)
-    current-prefix-arg))
+  (interactive (list (cursory--set-cursor-prompt)))
   (if-let* ((preset (cursory--get-preset-as-symbol style)))
-      (cursory--set-preset-with-scope preset local)
+      (cursory--set-preset-subr preset)
     (user-error "Cannot determine preset `%s'" preset)))
 
 ;;;###autoload
@@ -394,18 +414,26 @@ Can be assigned to `kill-emacs-hook'."
               (insert-file-contents file)
               (read (current-buffer)))))))
 
+(defun cursory-set-faces (&rest _)
+  "Set Cursory faces.
+Add this to the `enable-theme-functions'."
+  (when-let* ((last cursory-last-selected-preset)
+              (styles (cursory--get-preset-properties last))
+              (color-value (plist-get styles :cursor-color)))
+    (cursory--set-cursor color-value)))
+
 ;;;###autoload
 (define-minor-mode cursory-mode
-  "Persist Cursory presets.
-Arrange to store and restore the current Cursory preset when
-closing and restarting Emacs."
+  "Persist Cursory presets and other styles."
   :global t
   (if cursory-mode
       (progn
         (add-hook 'kill-emacs-hook #'cursory-store-latest-preset)
-        (add-hook 'cursory-set-preset-hook #'cursory-store-latest-preset))
+        (add-hook 'cursory-set-preset-hook #'cursory-store-latest-preset)
+        (add-hook 'enable-theme-functions #'cursory-set-faces))
     (remove-hook 'kill-emacs-hook #'cursory-store-latest-preset)
-    (remove-hook 'cursory-set-preset-hook #'cursory-store-latest-preset)))
+    (remove-hook 'cursory-set-preset-hook #'cursory-store-latest-preset)
+    (remove-hook 'enable-theme-functions #'cursory-set-faces)))
 
 (provide 'cursory)
 ;;; cursory.el ends here
