@@ -278,36 +278,47 @@ Saving is done by the `cursory-store-latest-preset' function."
 (defvar cursory--style-hist '()
   "Minibuffer history of `cursory--set-cursor-prompt'.")
 
-(defun cursory--get-presets ()
+(defconst cursory-fallback-preset
+  '(cursory-defaults
+    :cursor-color unspecified ; use the theme's original
+    :cursor-type box
+    :cursor-in-non-selected-windows hollow
+    :blink-cursor-mode 1
+    :blink-cursor-blinks 10
+    :blink-cursor-interval 0.2
+    :blink-cursor-delay 0.2)
+  "Fallback preset configuration like `cursory-presets'.")
+
+(defun cursory-get-presets ()
+  "Return consolidated `cursory-presets' and `cursory-fallback-preset'."
+  (append (list cursory-fallback-preset) cursory-presets))
+
+(defun cursory--get-preset-symbols ()
   "Return the `car' of each named entry in `cursory-presets'."
-  (delq t (mapcar #'car cursory-presets)))
+  (delq t (mapcar #'car (cursory-get-presets))))
 
 (defun cursory--preset-p (preset)
   "Return non-nil if PRESET is one of the named `cursory-presets'."
-  (if-let* ((presets (cursory--get-presets)))
+  (if-let* ((presets (cursory--get-preset-symbols)))
       (memq preset presets)
     (error "There are no named presets in `cursory-presets'")))
 
+;; NOTE 2025-07-21: In principle, this should work recursively but it
+;; feels overkill for such a minor feature.
 (defun cursory--get-inherit-name (preset)
   "Get the `:inherit' value of PRESET."
-  (when-let* ((inherit (plist-get (alist-get preset cursory-presets) :inherit))
+  (when-let* ((presets (cursory-get-presets))
+              (inherit (plist-get (alist-get preset presets) :inherit))
               (cursory--preset-p inherit))
     inherit))
 
 (defun cursory--get-preset-properties (preset)
   "Return list of properties for PRESET in `cursory-presets'."
-  (let ((presets cursory-presets))
+  (let ((presets (cursory-get-presets)))
     (append (alist-get preset presets)
             (when-let* ((inherit (cursory--get-inherit-name preset)))
               (alist-get inherit presets))
             (alist-get t presets))))
-
-(defun cursory--presets-no-fallback ()
-  "Return list of `cursory-presets', minus the fallback value."
-  (seq-remove
-   (lambda (symbol)
-     (eq (car symbol) t))
-   cursory-presets))
 
 (defun cursory--set-cursor-prompt ()
   "Promp for `cursory-presets' (used by `cursory-set-preset')."
@@ -317,7 +328,7 @@ Saving is done by the `cursory-store-latest-preset' function."
                    "Apply cursor configurations from PRESET: ")))
     (completing-read
      prompt
-     (cursory--presets-no-fallback)
+     (cursory--get-preset-symbols)
      nil t nil 'cursory--style-hist def)))
 
 (defun cursory--get-preset-as-symbol (preset)
@@ -384,6 +395,21 @@ Call `cursory-set-preset-hook' as a final step."
   (if-let* ((preset (cursory--get-preset-as-symbol style)))
       (cursory--set-preset-subr preset)
     (user-error "Cannot determine preset `%s'" preset)))
+
+;;;###autoload
+(defun cursory-set-last-or-fallback ()
+  "Set the `cursory-last-selected-preset' or fall back to whatever known values.
+This function is useful when starting up Emacs, such as in the
+`after-init-hook'."
+  (cursory-set-preset
+   (cond
+    ((when-let* ((last-preset (cursory-restore-latest-preset))
+                 (_ (cursory--preset-p last-preset)))
+       last-preset))
+    ((cursory--preset-p 'box)
+     'box)
+    (t
+     'cursory-defaults))))
 
 ;;;###autoload
 (defun cursory-store-latest-preset ()

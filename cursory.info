@@ -1,4 +1,4 @@
-This is docNLncES.info, produced by makeinfo version 6.8 from
+This is docjogitA.info, produced by makeinfo version 6.8 from
 cursory.texi.
 
 Copyright (C) 2022-2025 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docNLncES.info,  Node: Top,  Next: Overview,  Up: (dir)
+File: docjogitA.info,  Node: Top,  Next: Installation,  Up: (dir)
 
 cursory.el: Manage cursor styles using presets
 **********************************************
@@ -60,9 +60,9 @@ as such.
 
 * Menu:
 
-* Overview::
 * Installation::
 * Sample configuration::
+* Overview::
 * Acknowledgements::
 * Also see::
 * GNU Free Documentation License::
@@ -70,14 +70,14 @@ as such.
 
 — The Detailed Node Listing —
 
-Overview
-
-* Example hooks after setting a preset::
-
 Installation
 
 * GNU ELPA package::
 * Manual installation::
+
+Overview
+
+* Example hooks after setting a preset::
 
 Indices
 
@@ -87,9 +87,133 @@ Indices
 
 
 
-File: docNLncES.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
+File: docjogitA.info,  Node: Installation,  Next: Sample configuration,  Prev: Top,  Up: Top
 
-1 Overview
+1 Installation
+**************
+
+* Menu:
+
+* GNU ELPA package::
+* Manual installation::
+
+
+File: docjogitA.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+
+1.1 GNU ELPA package
+====================
+
+The package is available as ‘cursory’.  Simply do:
+
+     M-x package-refresh-contents
+     M-x package-install
+
+   And search for it.
+
+   GNU ELPA provides the latest stable release.  Those who prefer to
+follow the development process in order to report bugs or suggest
+changes, can use the version of the package from the GNU-devel ELPA
+archive.  Read:
+<https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
+
+
+File: docjogitA.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+
+1.2 Manual installation
+=======================
+
+Assuming your Emacs files are found in ‘~/.emacs.d/’, execute the
+following commands in a shell prompt:
+
+     cd ~/.emacs.d
+
+     # Create a directory for manually-installed packages
+     mkdir manual-packages
+
+     # Go to the new directory
+     cd manual-packages
+
+     # Clone this repo, naming it "cursory"
+     git clone https://github.com/protesilaos/cursory cursory
+
+   Finally, in your ‘init.el’ (or equivalent) evaluate this:
+
+     ;; Make Elisp files in that directory available to the user.
+     (add-to-list 'load-path "~/.emacs.d/manual-packages/cursory")
+
+   Everything is in place to set up the package.
+
+
+File: docjogitA.info,  Node: Sample configuration,  Next: Overview,  Prev: Installation,  Up: Top
+
+2 Sample configuration
+**********************
+
+Remember to read the doc string of each of these variables or functions.
+
+     (use-package cursory
+       :ensure t
+       :demand t
+       :if (display-graphic-p)
+       :config
+       (setq cursory-presets
+             '((box
+                :cursor-color success ; will typically be green
+                :blink-cursor-interval 1.2)
+               (box-no-blink
+                :inherit box
+                :blink-cursor-mode -1)
+               (bar
+                :cursor-type (bar . 2)
+                :cursor-color error ; will typically be red
+                :blink-cursor-interval 0.8)
+               (bar-no-other-window
+                :inherit bar
+                :cursor-in-non-selected-windows nil)
+               (bar-no-blink
+                :inherit bar
+                :blink-cursor-mode -1)
+               (underscore
+                :cursor-color warning ; will typically be yellow
+                :cursor-type (hbar . 3)
+                :blink-cursor-interval 0.3
+                :blink-cursor-blinks 50)
+               (underscore-no-other-window
+                :inherit underscore
+                :cursor-in-non-selected-windows nil)
+               (underscore-thick
+                :inherit underscore
+                :cursor-type (hbar . 8)
+                :cursor-in-non-selected-windows (hbar . 3))
+               (t ; the default values
+                :cursor-color unspecified ; use the theme's original
+                :cursor-type box
+                :cursor-in-non-selected-windows hollow
+                :blink-cursor-mode 1
+                :blink-cursor-blinks 10
+                :blink-cursor-interval 0.2
+                :blink-cursor-delay 0.2)))
+
+       ;; I am using the default value of `cursory-latest-state-file'.
+
+       ;; Set last preset or fall back to desired style from
+       ;; `cursory-presets'.  Alternatively, use the function
+       ;; `cursory-set-last-or-fallback' (can be added to the
+       ;; `after-init-hook'.
+       (cursory-set-preset (or (cursory-restore-latest-preset) 'box))
+
+       ;; Persist configurations between Emacs sessions.  Also apply the
+       ;; :cursor-color again when swithcing to another theme.
+       (cursory-mode 1)
+       :bind
+       ;; We have to use the "point" mnemonic, because C-c c is often the
+       ;; suggested binding for `org-capture' and is the one I use as well.
+       ("C-c p" . cursory-set-preset))
+
+
+File: docjogitA.info,  Node: Overview,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
+
+3 Overview
 **********
 
 Cursory provides a thin wrapper around built-in variables that affect
@@ -221,16 +345,23 @@ be restored with the ‘cursory-restore-latest-preset’ function.
 
    Instead of manually storing the latest Cursory preset, users can
 enable the ‘cursory-mode’.  It arranges to track the latest preset each
-time after using ‘cursory-set-preset’ or Emacs is closed.
+time after using ‘cursory-set-preset’ or Emacs is closed.  The mode will
+also persist the ‘:cursor-color’ attribute, if set, when switching to
+another theme.  Otherwise, the theme’s style will take precedence.  [
+The ‘:cursor-color’ is part of 1.2.0-dev.  ]
+
+   The function ‘cursory-set-last-or-fallback’ can be added to the user
+configuration to automatically set the last known Cursory preset or some
+known fallback values.  [ This function is part of 1.2.0-dev.  ]
 
 * Menu:
 
 * Example hooks after setting a preset::
 
 
-File: docNLncES.info,  Node: Example hooks after setting a preset,  Up: Overview
+File: docjogitA.info,  Node: Example hooks after setting a preset,  Up: Overview
 
-1.1 Example hooks after setting a preset
+3.1 Example hooks after setting a preset
 ========================================
 
 The ‘cursory-set-preset-hook’ is a normal hook (where functions are
@@ -255,88 +386,7 @@ invoked without any arguments), which is called after the command
 questions.
 
 
-File: docNLncES.info,  Node: Installation,  Next: Sample configuration,  Prev: Overview,  Up: Top
-
-2 Installation
-**************
-
-* Menu:
-
-* GNU ELPA package::
-* Manual installation::
-
-
-File: docNLncES.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
-
-2.1 GNU ELPA package
-====================
-
-The package is available as ‘cursory’.  Simply do:
-
-     M-x package-refresh-contents
-     M-x package-install
-
-   And search for it.
-
-   GNU ELPA provides the latest stable release.  Those who prefer to
-follow the development process in order to report bugs or suggest
-changes, can use the version of the package from the GNU-devel ELPA
-archive.  Read:
-<https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
-
-
-File: docNLncES.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
-
-2.2 Manual installation
-=======================
-
-Assuming your Emacs files are found in ‘~/.emacs.d/’, execute the
-following commands in a shell prompt:
-
-     cd ~/.emacs.d
-
-     # Create a directory for manually-installed packages
-     mkdir manual-packages
-
-     # Go to the new directory
-     cd manual-packages
-
-     # Clone this repo, naming it "cursory"
-     git clone https://github.com/protesilaos/cursory cursory
-
-   Finally, in your ‘init.el’ (or equivalent) evaluate this:
-
-     ;; Make Elisp files in that directory available to the user.
-     (add-to-list 'load-path "~/.emacs.d/manual-packages/cursory")
-
-   Everything is in place to set up the package.
-
-
-File: docNLncES.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
-
-3 Sample configuration
-**********************
-
-Remember to read the doc string of each of these variables or functions.
-
-     (require 'cursory)
-
-     ;; Check the `cursory-presets' for how to set your own preset styles.
-
-     (setq cursory-latest-state-file (locate-user-emacs-file "cursory-latest-state"))
-
-     ;; Set last preset or fall back to desired style from `cursory-presets'.
-     (cursory-set-preset (or (cursory-restore-latest-preset) 'bar))
-
-     ;; Arrange to keep track of the latest Cursory preset.
-     (cursory-mode 1)
-
-     ;; We have to use the "point" mnemonic, because C-c c is often the
-     ;; suggested binding for `org-capture'.
-     (define-key global-map (kbd "C-c p") #'cursory-set-preset)
-
-
-File: docNLncES.info,  Node: Acknowledgements,  Next: Also see,  Prev: Sample configuration,  Up: Top
+File: docjogitA.info,  Node: Acknowledgements,  Next: Also see,  Prev: Overview,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -351,7 +401,7 @@ Contributions to the code or manual
      Kaludercic, Stefan Monnier.
 
 
-File: docNLncES.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
+File: docjogitA.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
 
 5 Also see
 **********
@@ -362,7 +412,7 @@ For example, the box is the default and switches to a bar when
 ‘overwrite-mode’ is on: <https://github.com/duckwork/electric-cursor>.
 
 
-File: docNLncES.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
+File: docjogitA.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
 
 6 GNU Free Documentation License
 ********************************
@@ -844,7 +894,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docNLncES.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docjogitA.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 7 Indices
 *********
@@ -856,7 +906,7 @@ File: docNLncES.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docNLncES.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docjogitA.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 7.1 Function index
 ==================
@@ -865,11 +915,12 @@ File: docNLncES.info,  Node: Function index,  Next: Variable index,  Up: Indices
 * Menu:
 
 * cursory-restore-latest-preset:         Overview.            (line 127)
+* cursory-set-last-or-fallback:          Overview.            (line 140)
 * cursory-set-preset:                    Overview.            (line  14)
 * cursory-store-latest-preset:           Overview.            (line 127)
 
 
-File: docNLncES.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docjogitA.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 7.2 Variable index
 ==================
@@ -883,7 +934,7 @@ File: docNLncES.info,  Node: Variable index,  Next: Concept index,  Prev: Functi
 * cursory-set-preset-hook:               Overview.            (line  19)
 
 
-File: docNLncES.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docjogitA.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 7.3 Concept index
 =================
@@ -899,19 +950,19 @@ File: docNLncES.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 Tag Table:
 Node: Top843
-Node: Overview2858
-Node: Example hooks after setting a preset8639
-Node: Installation9772
-Node: GNU ELPA package9959
-Node: Manual installation10521
-Node: Sample configuration11294
-Node: Acknowledgements12124
-Node: Also see12521
-Node: GNU Free Documentation License12936
-Node: Indices38271
-Node: Function index38447
-Node: Variable index38811
-Node: Concept index39270
+Node: Installation2862
+Node: GNU ELPA package3044
+Node: Manual installation3606
+Node: Sample configuration4379
+Node: Overview6936
+Node: Example hooks after setting a preset13163
+Node: Acknowledgements14296
+Node: Also see14681
+Node: GNU Free Documentation License15096
+Node: Indices40431
+Node: Function index40607
+Node: Variable index41044
+Node: Concept index41503
 
 End Tag Table
 
