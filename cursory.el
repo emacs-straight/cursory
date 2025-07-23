@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/cursory
-;; Version: 1.1.0
+;; Version: 1.2.0
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: convenience, cursor
 
@@ -26,13 +26,12 @@
 
 ;;; Commentary:
 ;;
-;; Cursory provides a thin wrapper around built-in variables that affect
-;; the style of the Emacs cursor on graphical terminals.  The intent is
-;; to allow the user to define preset configurations such as "block with
-;; slow blinking" or "bar with fast blinking" and set them on demand.
-;; The use-case for such presets is to adapt to evolving interface
-;; requirements and concomitant levels of expected comfort, such as in
-;; the difference between writing and reading.
+;; Cursory lets users define preset configurations for the cursor.
+;; Those cover the style of the cursor (e.g. box or bar), whether it
+;; is blinking or not, and how fast, as well as the colour it uses.
+;; Having distinct presets makes it easy to switch between, say, a
+;; "reading mode" with an ambient cursor and a "presentation mode"
+;; with a cursor that is more noticeable and thus easier to spot.
 ;;
 ;; The user option `cursory-presets' holds the presets.  The command
 ;; `cursory-set-preset' is applies one among them.  The command supports
@@ -275,9 +274,6 @@ Saving is done by the `cursory-store-latest-preset' function."
   :package-version '(cursory . "1.1.0")
   :group 'cursory)
 
-(defvar cursory--style-hist '()
-  "Minibuffer history of `cursory--set-cursor-prompt'.")
-
 (defconst cursory-fallback-preset
   '(cursory-defaults
     :cursor-color unspecified ; use the theme's original
@@ -320,25 +316,50 @@ Saving is done by the `cursory-store-latest-preset' function."
               (alist-get inherit presets))
             (alist-get t presets))))
 
-(defun cursory--set-cursor-prompt ()
+(defun cursory--get-preset-symbols-as-strings ()
+  "Convert `fontaine--get-preset-symbols' return value to list of string."
+  (mapcar #'symbol-name (cursory--get-preset-symbols)))
+
+(defvar cursory-last-selected-preset nil
+  "The last value of `cursory-set-preset'.")
+
+(defun cursory--get-first-non-current-preset (history)
+  "Return the first element of HISTORY which is not `cursory-last-selected-preset'.
+Only consider elements that are still part of the `cursory-presets'."
+  (catch 'first
+    (dolist (element history)
+      (when (symbolp element)
+        (setq element (symbol-name element)))
+      (when (and (not (string= element cursory-last-selected-preset))
+                 (member element (cursory--get-preset-symbols-as-strings)))
+        (throw 'first element)))))
+
+(define-obsolete-variable-alias
+  'cursory--style-hist
+  'cursory-preset-history
+  "1.2.0")
+
+(defvar cursory-preset-history nil
+  "Minibuffer history of `cursory-set-preset-prompt'.")
+
+(define-obsolete-function-alias
+  'cursory--set-cursor-prompt
+  'cursory-set-preset-prompt
+  "1.2.0")
+
+(defun cursory-set-preset-prompt ()
   "Promp for `cursory-presets' (used by `cursory-set-preset')."
-  (let* ((def (nth 1 cursory--style-hist))
-         (prompt (if def
-                     (format "Apply cursor configurations from PRESET [%s]: " def)
-                   "Apply cursor configurations from PRESET: ")))
+  (let ((default (cursory--get-first-non-current-preset cursory-preset-history)))
     (completing-read
-     prompt
+     (format-prompt "Apply cursor configurations from PRESET" default)
      (cursory--get-preset-symbols)
-     nil t nil 'cursory--style-hist def)))
+     nil t nil 'cursory-preset-history default)))
 
 (defun cursory--get-preset-as-symbol (preset)
   "Return PRESET as a symbol."
   (if (stringp preset)
       (intern preset)
     preset))
-
-(defvar cursory-last-selected-preset nil
-  "The last value of `cursory-set-preset'.")
 
 (defun cursory--get-cursor-color (color-value)
   "Return the color of the `cursor' face based on VALUE.
@@ -378,7 +399,7 @@ effect to all frames."
                       blink-cursor-interval interval
                       blink-cursor-delay delay)
         ;; We only want to save global values in `cursory-store-latest-preset'.
-        (add-to-history 'cursory--style-hist (format "%s" preset))
+        (add-to-history 'cursory-preset-history (format "%s" preset))
         (blink-cursor-mode (plist-get styles :blink-cursor-mode))
         (run-hooks 'cursory-set-preset-hook))
     (user-error "Cannot determine styles of preset `%s'" preset)))
@@ -391,7 +412,7 @@ STYLE is a symbol that represents the car of a list in
 `cursory-presets'.
 
 Call `cursory-set-preset-hook' as a final step."
-  (interactive (list (cursory--set-cursor-prompt)))
+  (interactive (list (cursory-set-preset-prompt)))
   (if-let* ((preset (cursory--get-preset-as-symbol style)))
       (cursory--set-preset-subr preset)
     (user-error "Cannot determine preset `%s'" preset)))
@@ -415,7 +436,7 @@ This function is useful when starting up Emacs, such as in the
 (defun cursory-store-latest-preset ()
   "Write latest cursor state to `cursory-latest-state-file'.
 Can be assigned to `kill-emacs-hook'."
-  (when-let* ((hist cursory--style-hist))
+  (when-let* ((hist cursory-preset-history))
     (with-temp-file cursory-latest-state-file
       (insert ";; Auto-generated file; don't edit -*- mode: "
               (if (<= 28 emacs-major-version)
