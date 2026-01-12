@@ -47,7 +47,7 @@ Table of Contents
 1 COPYING
 ═════════
 
-  Copyright (C) 2022-2025 Free Software Foundation, Inc.
+  Copyright (C) 2022-2026 Free Software Foundation, Inc.
 
         Permission is granted to copy, distribute and/or modify
         this document under the terms of the GNU Free
@@ -64,9 +64,6 @@ Table of Contents
 
 2 Installation
 ══════════════
-
-
-
 
 2.1 GNU ELPA package
 ────────────────────
@@ -130,42 +127,42 @@ Table of Contents
   │   :if (display-graphic-p)
   │   :config
   │   (setq cursory-presets
-  │ 	'((box
-  │ 	   :cursor-color success ; will typically be green
-  │ 	   :blink-cursor-interval 1.2)
-  │ 	  (box-no-blink
-  │ 	   :inherit box
-  │ 	   :blink-cursor-mode -1)
-  │ 	  (bar
-  │ 	   :cursor-type (bar . 2)
-  │ 	   :cursor-color error ; will typically be red
-  │ 	   :blink-cursor-interval 0.8)
-  │ 	  (bar-no-other-window
-  │ 	   :inherit bar
-  │ 	   :cursor-in-non-selected-windows nil)
-  │ 	  (bar-no-blink
-  │ 	   :inherit bar
-  │ 	   :blink-cursor-mode -1)
-  │ 	  (underscore
-  │ 	   :cursor-color warning ; will typically be yellow
-  │ 	   :cursor-type (hbar . 3)
-  │ 	   :blink-cursor-interval 0.3
-  │ 	   :blink-cursor-blinks 50)
-  │ 	  (underscore-no-other-window
-  │ 	   :inherit underscore
-  │ 	   :cursor-in-non-selected-windows nil)
-  │ 	  (underscore-thick
-  │ 	   :inherit underscore
-  │ 	   :cursor-type (hbar . 8)
-  │ 	   :cursor-in-non-selected-windows (hbar . 3))
-  │ 	  (t ; the default values
-  │ 	   :cursor-color unspecified ; use the theme's original
-  │ 	   :cursor-type box
-  │ 	   :cursor-in-non-selected-windows hollow
-  │ 	   :blink-cursor-mode 1
-  │ 	   :blink-cursor-blinks 10
-  │ 	   :blink-cursor-interval 0.2
-  │ 	   :blink-cursor-delay 0.2)))
+  │         '((box
+  │            :cursor-color success ; will typically be green
+  │            :blink-cursor-interval 1.2)
+  │           (box-no-blink
+  │            :inherit box
+  │            :blink-cursor-mode -1)
+  │           (bar
+  │            :cursor-type (bar . 2)
+  │            :cursor-color error ; will typically be red
+  │            :blink-cursor-interval 0.8)
+  │           (bar-no-other-window
+  │            :inherit bar
+  │            :cursor-in-non-selected-windows nil)
+  │           (bar-no-blink
+  │            :inherit bar
+  │            :blink-cursor-mode -1)
+  │           (underscore
+  │            :cursor-color warning ; will typically be yellow
+  │            :cursor-type (hbar . 3)
+  │            :blink-cursor-interval 0.3
+  │            :blink-cursor-blinks 50)
+  │           (underscore-no-other-window
+  │            :inherit underscore
+  │            :cursor-in-non-selected-windows nil)
+  │           (underscore-thick
+  │            :inherit underscore
+  │            :cursor-type (hbar . 8)
+  │            :cursor-in-non-selected-windows (hbar . 3))
+  │           (t ; the default values
+  │            :cursor-color unspecified ; use the theme's original
+  │            :cursor-type box
+  │            :cursor-in-non-selected-windows hollow
+  │            :blink-cursor-mode 1
+  │            :blink-cursor-blinks 10
+  │            :blink-cursor-interval 0.2
+  │            :blink-cursor-delay 0.2)))
   │ 
   │   ;; I am using the default value of `cursory-latest-state-file'.
   │ 
@@ -246,20 +243,20 @@ Table of Contents
   ┌────
   │ (setq cursory-presets
   │       '(
-  │ 	;; Sample code here ...
-  │ 	(bar
-  │ 	 :cursor-type (bar . 2)
-  │ 	 :cursor-in-non-selected-windows hollow
-  │ 	 :blink-cursor-mode 1
-  │ 	 :blink-cursor-blinks 10
-  │ 	 :blink-cursor-interval 0.5
-  │ 	 :blink-cursor-delay 0.2)
+  │         ;; Sample code here ...
+  │         (bar
+  │          :cursor-type (bar . 2)
+  │          :cursor-in-non-selected-windows hollow
+  │          :blink-cursor-mode 1
+  │          :blink-cursor-blinks 10
+  │          :blink-cursor-interval 0.5
+  │          :blink-cursor-delay 0.2)
   │ 
-  │ 	(bar-no-other-window
-  │ 	 :inherit bar
-  │ 	 :cursor-in-non-selected-windows nil)
-  │ 	;; More sample code here ...
-  │ 	))
+  │         (bar-no-other-window
+  │          :inherit bar
+  │          :cursor-in-non-selected-windows nil)
+  │         ;; More sample code here ...
+  │         ))
   └────
 
   In the above example, the `bar-no-other-window' is the same as `bar'
