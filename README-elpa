@@ -117,7 +117,7 @@ Table of Contents
 3 Sample configuration
 ══════════════════════
 
-  Remember to read the doc string of each of these variables or
+  Remember to read the docstring of each of these variables or
   functions.
 
   ┌────
@@ -301,7 +301,7 @@ Table of Contents
   │      :blink-cursor-blinks 10
   │      :blink-cursor-interval 0.2
   │      :blink-cursor-delay 0.2))
-  │   ;; Omitting the doc string for demo purposes
+  │   ;; Omitting the docstring for demo purposes
   │   )
   └────
 

@@ -1,4 +1,4 @@
-This is docsQljGB.info, produced by makeinfo version 7.1.1 from
+This is cursory.info, produced by makeinfo version 7.2 from
 cursory.texi.
 
 Copyright (C) 2022-2026 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docsQljGB.info,  Node: Top,  Next: Installation,  Up: (dir)
+File: cursory.info,  Node: Top,  Next: Installation,  Up: (dir)
 
 cursory.el: Manage cursor styles using presets
 **********************************************
@@ -85,9 +85,8 @@ Indices
 * Variable index::
 * Concept index::
 
-
 
-File: docsQljGB.info,  Node: Installation,  Next: Sample configuration,  Prev: Top,  Up: Top
+File: cursory.info,  Node: Installation,  Next: Sample configuration,  Prev: Top,  Up: Top
 
 1 Installation
 **************
@@ -98,7 +97,7 @@ File: docsQljGB.info,  Node: Installation,  Next: Sample configuration,  Prev: T
 * Manual installation::
 
 
-File: docsQljGB.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: cursory.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 1.1 GNU ELPA package
 ====================
@@ -117,7 +116,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docsQljGB.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: cursory.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 1.2 Manual installation
 =======================
@@ -144,12 +143,12 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docsQljGB.info,  Node: Sample configuration,  Next: Overview,  Prev: Installation,  Up: Top
+File: cursory.info,  Node: Sample configuration,  Next: Overview,  Prev: Installation,  Up: Top
 
 2 Sample configuration
 **********************
 
-Remember to read the doc string of each of these variables or functions.
+Remember to read the docstring of each of these variables or functions.
 
      (use-package cursory
        :ensure t
@@ -211,7 +210,7 @@ Remember to read the doc string of each of these variables or functions.
        ("C-c p" . cursory-set-preset))
 
 
-File: docsQljGB.info,  Node: Overview,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
+File: cursory.info,  Node: Overview,  Next: Acknowledgements,  Prev: Sample configuration,  Up: Top
 
 3 Overview
 **********
@@ -327,7 +326,7 @@ this variable for how that is done:
           :blink-cursor-blinks 10
           :blink-cursor-interval 0.2
           :blink-cursor-delay 0.2))
-       ;; Omitting the doc string for demo purposes
+       ;; Omitting the docstring for demo purposes
        )
 
    When called from Lisp, the ‘cursory-set-preset’ command requires a
@@ -356,7 +355,7 @@ known fallback values.
 * Example hooks after setting a preset::
 
 
-File: docsQljGB.info,  Node: Example hooks after setting a preset,  Up: Overview
+File: cursory.info,  Node: Example hooks after setting a preset,  Up: Overview
 
 3.1 Example hooks after setting a preset
 ========================================
@@ -383,7 +382,7 @@ invoked without any arguments), which is called after the command
 questions.
 
 
-File: docsQljGB.info,  Node: Acknowledgements,  Next: Also see,  Prev: Overview,  Up: Top
+File: cursory.info,  Node: Acknowledgements,  Next: Also see,  Prev: Overview,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -398,7 +397,7 @@ Contributions to the code or manual
      Kaludercic, Stefan Monnier.
 
 
-File: docsQljGB.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
+File: cursory.info,  Node: Also see,  Next: GNU Free Documentation License,  Prev: Acknowledgements,  Up: Top
 
 5 Also see
 **********
@@ -409,7 +408,7 @@ For example, the box is the default and switches to a bar when
 ‘overwrite-mode’ is on: <https://github.com/duckwork/electric-cursor>.
 
 
-File: docsQljGB.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
+File: cursory.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Also see,  Up: Top
 
 6 GNU Free Documentation License
 ********************************
@@ -891,7 +890,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docsQljGB.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: cursory.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 7 Indices
 *********
@@ -903,7 +902,7 @@ File: docsQljGB.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up
 * Concept index::
 
 
-File: docsQljGB.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: cursory.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 7.1 Function index
 ==================
@@ -917,7 +916,7 @@ File: docsQljGB.info,  Node: Function index,  Next: Variable index,  Up: Indices
 * cursory-store-latest-preset:           Overview.            (line 125)
 
 
-File: docsQljGB.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: cursory.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 7.2 Variable index
 ==================
@@ -931,7 +930,7 @@ File: docsQljGB.info,  Node: Variable index,  Next: Concept index,  Prev: Functi
 * cursory-set-preset-hook:               Overview.            (line  18)
 
 
-File: docsQljGB.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: cursory.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 7.3 Concept index
 =================
@@ -943,27 +942,27 @@ File: docsQljGB.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 * Installation instructions:             Installation.          (line 6)
 * Package configuration:                 Sample configuration.  (line 6)
 
-
 
 Tag Table:
-Node: Top845
-Node: Installation2862
-Node: GNU ELPA package3044
-Node: Manual installation3606
-Node: Sample configuration4379
-Node: Overview6936
-Node: Example hooks after setting a preset12943
-Node: Acknowledgements14076
-Node: Also see14461
-Node: GNU Free Documentation License14876
-Node: Indices40010
-Node: Function index40186
-Node: Variable index40623
-Node: Concept index41082
+Node: Top841
+Node: Installation2855
+Node: GNU ELPA package3035
+Node: Manual installation3595
+Node: Sample configuration4366
+Node: Overview6920
+Node: Example hooks after setting a preset12924
+Node: Acknowledgements14055
+Node: Also see14438
+Node: GNU Free Documentation License14851
+Node: Indices39983
+Node: Function index40157
+Node: Variable index40592
+Node: Concept index41049
 
 End Tag Table
 
 
 Local Variables:
 coding: utf-8
+Info-documentlanguage: en
 End:

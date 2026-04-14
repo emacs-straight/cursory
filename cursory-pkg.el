@@ -1,2 +1,2 @@
-;; Generated package description from cursory.el  -*- mode: lisp-data; no-byte-compile: t -*-
-(define-package "cursory" "1.2.0.0.20260111.105552" "Manage cursor styles using presets" '((emacs "29.1")) :commit "ac2a994ebe0786eb7e53df094af7305e4796c1a1" :authors '(("Protesilaos Stavrou" . "info@protesilaos.com")) :maintainer '("Protesilaos Stavrou" . "info@protesilaos.com") :keywords '("convenience" "cursor") :url "https://github.com/protesilaos/cursory")
+;; Generated package description from cursory.el  -*- mode: lisp-data; no-byte-compile: t; lexical-binding:t -*-
+(define-package "cursory" "1.2.0.0.20260413.54607" "Manage cursor styles using presets" '((emacs "29.1")) :commit "f7c4e53ba01355fbf0fb1c5b870e3975f638933d" :authors '(("Protesilaos Stavrou" . "info@protesilaos.com")) :maintainer '("Protesilaos Stavrou" . "info@protesilaos.com") :keywords '("convenience" "cursor") :url "https://github.com/protesilaos/cursory")
