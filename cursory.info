@@ -38,9 +38,9 @@ Copyright (C) 2022-2026 Free Software Foundation, Inc.
      (a) The FSF’s Back-Cover Text is: “You have the freedom to copy and
      modify this GNU manual.”
 
-   This manual, written by Protesilaos Stavrou, describes the
-customization options for ‘cursory’ (or ‘cursory.el’), and provides
-every other piece of information pertinent to it.
+   This manual, written by Protesilaos, describes the customization
+options for ‘cursory’ (or ‘cursory.el’), and provides every other piece
+of information pertinent to it.
 
    The documentation furnished herein corresponds to stable version
 1.2.0, released on 2025-07-22.  Any reference to a newer feature which
@@ -390,7 +390,7 @@ File: cursory.info,  Node: Acknowledgements,  Next: Also see,  Prev: Overview,  
 Cursory is meant to be a collective effort.  Every bit of help matters.
 
 Author/maintainer
-     Protesilaos Stavrou.
+     Protesilaos.
 
 Contributions to the code or manual
      Christopher League, Mehdi Khawari, Nicholas Vollmer, Philip
@@ -945,19 +945,19 @@ File: cursory.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 Tag Table:
 Node: Top841
-Node: Installation2855
-Node: GNU ELPA package3035
-Node: Manual installation3595
-Node: Sample configuration4366
-Node: Overview6920
-Node: Example hooks after setting a preset12924
-Node: Acknowledgements14055
-Node: Also see14438
-Node: GNU Free Documentation License14851
-Node: Indices39983
-Node: Function index40157
-Node: Variable index40592
-Node: Concept index41049
+Node: Installation2847
+Node: GNU ELPA package3027
+Node: Manual installation3587
+Node: Sample configuration4358
+Node: Overview6912
+Node: Example hooks after setting a preset12916
+Node: Acknowledgements14047
+Node: Also see14422
+Node: GNU Free Documentation License14835
+Node: Indices39967
+Node: Function index40141
+Node: Variable index40576
+Node: Concept index41033
 
 End Tag Table
 
